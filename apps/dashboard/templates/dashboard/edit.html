@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Editorial</title>
+</head>
+<body>
+ <h3><a href="/dashboard">Dashboard</a> | <a href="/logout">Logout</a></h3>
+ <br>
+ <form action="/dashboard/{{request.session.appntmnt}}/update" method="POST">
+     {% csrf_token %}
+     {% for n in editorial %}
+     Tasks: <input type="text" name="task" placeholder="{{ n.task }}">
+     <br>
+     Status: <select name="status">
+         <option value="Done">Done</option>
+         <option value="Pending">Pending</option>
+         <option value="Missed">Missed</option>
+     </select>
+     <br>
+     Date: <input type="date" name="date">
+     <br>
+     Time: <input type="time" name="time">
+     <br>
+     <input type="submit" value="Update">
+     {% endfor %}
+ </form>
+ {% if messages %}
+     {% for message in messages %}
+         <p>{{message}}</p>
+     {% endfor %}
+ {% endif %}
+
+</body>
+</html>

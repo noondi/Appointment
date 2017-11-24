@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- styling with bootstrap here!!! -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <title>Login</title>
+</head>
+<body>
+    <h1>Welcome to my world!</h1>  
+    <!-- User registration!!!! -->
+    <div style="margin-left:60px; width: 200px; vertical-align: top; display: inline-block;">
+        <h2>Register here</h2>
+        <form action="/register" method="POST">
+            {% csrf_token %}
+            Name:<input type="text" name="name" class='form-control' placeholder="name"><br>
+            Email:<input type="email" name="email" class='form-control' placeholder="email"><br>
+            Password:<input type="password" name="password" class='form-control' placeholder="password"><br>
+            Confirm Password:<input type="password" name="cnfpw"  class='form-control' placeholder="confirm password"><br>
+            Date of Birth<input type="date" name="bday" class='form-control' placeholder="bday"><br>
+            <input type="submit" value="Register">
+        </form>
+    </div>
+    <!-- Displaying success and error messages!!! -->
+    {% if messages %}
+        {% for message in messages %}
+            <p>{{message}}</p>
+        {% endfor %}
+    {% endif %}
+    <!-- Creating Login -->
+    <div style="margin-left:60px; width: 200px; vertical-align: top; display: inline-block;">
+        <h2>Login</h2>
+        <form action="/login" method="POST">
+            {% csrf_token %}
+            Email:<input type="text" name="email" class='form-control' placeholder="email"><br>
+            Password:<input type="password" name="password" class='form-control' placeholder="password"><br>
+            <input type="submit" value="Login">
+        </form>
+    </div>
+</body>
+</html>

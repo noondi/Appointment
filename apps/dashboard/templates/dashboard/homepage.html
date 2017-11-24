@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Dashboard</title>
+</head>
+<body>
+    <h1 style="display:inline-block; margin-right:350px;">Hello, {{request.session.name}}!</h1>
+    <a href="/logout">Logout</a>
+    <br>
+    <h3>Here are your appointments for today, {{ request.session.now }}:</h3>
+    <table>
+        <tr>
+            <th>Tasks</th>
+            <th>Time</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+        {% for n in today_appointment %}
+        <!-- if the time is now -->
+            {% if n.date == request.session.now %}
+                <tr>
+                    <td>{{ n.task }}</td>
+                    <td>{{ n.time }}</td>
+                    <td>{{ n.status }}</td>
+                    <!-- pending or missed!! -->
+                    {% if n.status != "Done" %} 
+                        <td><a href="/dashboard/{{ n.id }}/edit">Edit</a> <a href="/dashboard/{{ n.id }}/delete">Delete</a></td>
+                    {% endif %}
+                </tr>
+            {% endif %}
+        {% endfor %}
+    </table>
+    <br>
+    <br>
+    <!-- display related message to user -->
+    {% if messages %}
+        {% for message in messages %}
+            <p>{{message}}</p>
+        {% endfor %}
+    {% endif %}
+    <!-- =================================================== -->
+    <h3>Your other appointments:</h3>
+    <table>
+        <tr>
+            <th>Tasks</th>
+            <th>Date</th>
+            <th>Time</th>
+        </tr>
+        {% for n in today_appointment %}
+        {% if n.date > request.session.now %}
+            <tr>
+                <td>{{ n.task }}</td>
+                <td>{{ n.date }}</td>
+                <td>{{ n.time }}</td>
+            </tr>
+        {% endif %}
+    {% endfor %}
+    </table>
+    <br>
+    <br>
+    <!-- =================================================== -->
+
+    <h3>Add Appointment:</h3>
+    <form action="/dashboard/add" method="post">
+        {% csrf_token %}
+        Date: <input type="date" name="date" ><br>
+        Time: <input type="time" name="time"><br>
+        Task: <input type="text" name="task"><br>
+        <input type="submit" value="submit">
+    </form>
+    
+    <!-- =================================================== -->
+    {% if messages %}
+        {% for message in messages %}
+            <p>{{message}}</p>
+        {% endfor %}
+    {% endif %}
+
+</body>
+</html>
